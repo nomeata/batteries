@@ -45,7 +45,7 @@ noncomputable def size (data : Buckets α β) : Nat := .sum (data.1.data.map (·
 
 /-- Map a function over the values in the map. -/
 @[specialize] def mapVal (f : α → β → γ) (self : Buckets α β) : Buckets α γ :=
-  ⟨self.1.map (.mapVal f), by simp [self.2]⟩
+  ⟨self.1.map (.mapVal f), by simp [self.2, -List.length_pos]⟩
 
 /--
 The well-formedness invariant for the bucket array says that every element hashes to its index
@@ -203,7 +203,7 @@ Applies `f` to each key-value pair `a, b` in the map. If it returns `some c` the
   have : m'.1.size > 0 := by
     have := Array.size_mapM (m := StateT (ULift Nat) Id) (go .nil) m.buckets.1
     simp [SatisfiesM_StateT_eq, SatisfiesM_Id_eq] at this
-    simp [this, Id.run, StateT.run, m.2.2, m']
+    simp [this, Id.run, StateT.run, m.2.2, m', - List.length_pos]
   ⟨m'.2.1, m'.1, this⟩
 where
   /-- Inner loop of `filterMap`. Note that this reverses the bucket lists,

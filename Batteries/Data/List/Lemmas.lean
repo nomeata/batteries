@@ -26,7 +26,7 @@ theorem drop_one : ∀ l : List α, drop 1 l = tail l
 /-! ### zipWith -/
 
 theorem zipWith_distrib_tail : (zipWith f l l').tail = zipWith f l.tail l'.tail := by
-  rw [← drop_one]; simp [zipWith_distrib_drop]
+  simp only [← drop_one, zipWith_distrib_drop]
 
 /-! ### List subset -/
 
